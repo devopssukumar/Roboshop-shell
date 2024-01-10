@@ -32,7 +32,7 @@ fi
 dnf module disable mysql -y &>> $LOGFILE
 VALIDATE $? "Disable mysql version"
 
-cp mysql.repo /etc/yum.repos.d/mysql.repo &>> $LOGFILE
+cp /home/centos/roboshop-shell/mysql.repo /etc/yum.repos.d/mysql.repo &>> $LOGFILE
 VALIDATE $? "Copying mysql repo"
 
 dnf install mysql-community-server -y &>> $LOGFILE
