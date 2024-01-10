@@ -75,7 +75,7 @@ dnf install mysql -y &>> $LOGFILE
 VALIDATE $? "Installing mysql client"
 
 mysql -h mysql.aarchdevops.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
-VALIDATE $? "Loading the schema to Database"
+VALIDATE $? "Loading shipping schema"
 
 systemctl restart shipping &>> $LOGFILE
 VALIDATE $? "Restarting shipping"
