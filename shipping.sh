@@ -30,25 +30,24 @@ else
 fi
 
 dnf install maven -y &>> $LOGFILE
-VALIDATE $? "Installing maven"
+VALIDATE $? "Installing maven" 
 
 id roboshop
 if [ $? -ne 0 ]
 then
     useradd roboshop &>> $LOGFILE
-    VALIDATE $? "Adding Roboshop user"
+    VALIDATE $? "Adding roboshop user"
 else
-    echo -e "Roboshop user is already exist...$Y SKIPPING $N"
+    echo -e "roboshop user already exist...$Y SKIPPING $N"
 fi
 
 mkdir -p /app &>> $LOGFILE
 VALIDATE $? "Creating app directory"
 
 curl -L -o /tmp/shipping.zip https://roboshop-builds.s3.amazonaws.com/shipping.zip &>> $LOGFILE
-VALIDATE $? "Downloading shipping"
+VALIDATE $? "Downloading shipping code" 
 
 cd /app
-VALIDATE $? "Moving to app directory"
 
 unzip -o /tmp/shipping.zip &>> $LOGFILE
 VALIDATE $? "Unzipping shipping"
@@ -57,7 +56,7 @@ mvn clean package &>> $LOGFILE
 VALIDATE $? "Installing dependencies"
 
 mv target/shipping-1.0.jar shipping.jar &>> $LOGFILE
-VALIDATE $? "Renaming jar file"
+VALIDATE $? "Renaming shipping"
 
 cp /home/centos/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 VALIDATE $? "Copying shipping service"
@@ -69,12 +68,12 @@ systemctl enable shipping &>> $LOGFILE
 VALIDATE $? "Enabling shipping"
 
 systemctl start shipping &>> $LOGFILE
-VALIDATE $? "starting shipping"
+VALIDATE $? "Starting shipping"
 
 dnf install mysql -y &>> $LOGFILE
-VALIDATE $? "Installing mysql client"
+VALIDATE $? "Installing MySQL client"
 
-mysql -h mysql.aarchdevops.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
+mysql -h mysql.aarchdevops.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE 
 VALIDATE $? "Loading shipping schema"
 
 systemctl restart shipping &>> $LOGFILE
